@@ -1,0 +1,66 @@
+.movies {
+  position: relative;
+
+  &__flex {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    margin-bottom: 20px;
+    font-size: 35px;
+  }
+
+  &__filter {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    width: 20%;
+
+    input {
+      display: none;
+    }
+  }
+
+  &__genre {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  &__genreTitle {
+    margin-bottom: 20px;
+  }
+
+  &__label {
+    cursor: pointer;
+    display: inline-block;
+    padding: 2px 6px;
+    transition: all 0.3s ease-in-out;
+
+    @include buttonBlue;
+
+    &--active {
+      background-color: $clr-dark-blue;
+      color: $clr-white;
+    }
+  }
+
+  &__image {
+    width: 100%;
+  }
+
+  &__cards {
+    width: 75%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+  }
+
+  &__moreBtn {
+    @include buttonBlue;
+    padding: 6px 12px;
+    text-transform: uppercase;
+    grid-column: span 5;
+  }
+}

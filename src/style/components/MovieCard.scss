@@ -1,0 +1,70 @@
+.card {
+  max-width: 185px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgba($color: $clr-black, $alpha: 0.4);
+
+  &__info {
+    position: relative;
+    padding: 25px 10px 20px;
+  }
+
+  &__title {
+    color: $clr-dark-blue;
+    font-weight: 700;
+  }
+
+  &__date {
+    color: $clr-blue;
+  }
+
+  &__moreBtn {
+    width: 100%;
+  }
+
+  &__ratingOuter {
+    position: absolute;
+    top: -27.5px;
+    left: 10px;
+    background-color: $clr-black;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__ratingInner {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__value {
+    height: 88%;
+    width: 88%;
+    border-radius: 50%;
+    background-color: $clr-black;
+    color: $clr-white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__percentage {
+    position: relative;
+    transform: translateX(-2px);
+
+    &::before {
+      content: "%";
+      position: absolute;
+      top: 0;
+      right: -6px;
+      font-size: 8px;
+    }
+  }
+}

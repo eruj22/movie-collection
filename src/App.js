@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import axios from "axios";
 import MovieCard from "./components/MovieCard";
 
@@ -32,6 +34,7 @@ function App() {
         }
       })
       .catch((err) => console.log(err));
+    // eslint-disable-next-line
   }, [pageNumber, genresChecked]);
 
   useEffect(() => {
@@ -54,44 +57,65 @@ function App() {
   };
 
   return (
-    <section className="movies">
-      <div className="container">
-        <h1 className="movies__title">Popular movies</h1>
+    <>
+      <Header />
+      <section className="movies">
+        <div className="container">
+          <h1 className="movies__title">Popular movies</h1>
 
-        <div className="movies__flex">
-          <aside className="movies__filter">
-            {allGenres.map((item) => {
-              const { id, name } = item;
-              return (
-                <div key={id}>
-                  <input
-                    type="checkbox"
-                    name="genre"
-                    id={id}
-                    onChange={() => handleToggle(id)}
-                  />
-                  <label htmlFor={id}>{name}</label>
-                </div>
-              );
-            })}
-          </aside>
+          <div className="movies__flex">
+            <aside className="movies__filter">
+              <h2 className="movies__genreTitle">Filter movies by genre</h2>
 
-          <main className="movies__cards">
-            {isFetching ? (
-              <h1>Loading...</h1>
-            ) : (
-              movies.map((movie) => {
-                return <MovieCard key={movie.id} {...movie} />;
-              })
-            )}
+              <div className="movies__genre">
+                {allGenres.map((item) => {
+                  const { id, name } = item;
+                  return (
+                    <div key={id}>
+                      <input
+                        type="checkbox"
+                        name="genre"
+                        id={id}
+                        onChange={() => handleToggle(id)}
+                      />
+                      <label
+                        className={
+                          genresChecked.includes(id)
+                            ? "movies__label movies__label--active"
+                            : "movies__label"
+                        }
+                        htmlFor={id}
+                      >
+                        {name}
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+            </aside>
 
-            <button className="movies__moreBtn" onClick={addNewMovies}>
-              load more movies
-            </button>
-          </main>
+            <main className="movies__cards">
+              {isFetching ? (
+                <h1>Loading...</h1>
+              ) : (
+                movies.map((movie) => {
+                  return <MovieCard key={movie.id} {...movie} />;
+                })
+              )}
+
+              {isFetching ? (
+                ""
+              ) : (
+                <button className="movies__moreBtn" onClick={addNewMovies}>
+                  load more
+                </button>
+              )}
+            </main>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <Footer />
+    </>
   );
 }
 

@@ -2,9 +2,11 @@ import React from "react";
 
 function Header() {
   return (
-    <div>
-      <h1>header</h1>
-    </div>
+    <header className="header">
+      <div className="container">
+        <div className="header__logo">Movie Collection</div>
+      </div>
+    </header>
   );
 }
 

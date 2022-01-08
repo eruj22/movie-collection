@@ -1,0 +1,10 @@
+@mixin buttonBlue {
+  border: 1px solid $clr-dark-blue;
+  color: $clr-dark-blue;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: $clr-dark-blue;
+    color: $clr-white;
+  }
+}
