@@ -1,5 +1,6 @@
 .movies {
   margin: 30px 0;
+  min-height: 90vh;
 
   &__flex {
     display: flex;
@@ -65,14 +66,14 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .movies {
     &__cards {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
     }
 
     &__moreBtn {
-      grid-column: span 3;
+      grid-column: span 4;
     }
   }
 }

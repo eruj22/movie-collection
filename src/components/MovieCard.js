@@ -17,6 +17,7 @@ function MovieCard({
 
       <div className="card__info">
         <p className="card__title">{original_title}</p>
+
         <p className="card__date">
           {moment(release_date).format("DD MMM, YYYY")}
         </p>
@@ -31,7 +32,7 @@ function MovieCard({
             }}
           >
             <div className="card__value">
-              <span className="card__percentage">{vote_average}</span>
+              <span className="card__percentage">{vote_average * 10}</span>
             </div>
           </div>
         </div>

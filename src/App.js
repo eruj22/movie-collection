@@ -6,21 +6,31 @@ import MovieCard from "./components/MovieCard";
 
 function App() {
   const [isFetching, setIsFetching] = useState(false);
-  const [movies, setMovies] = useState([]);
+  const [isError, setIsError] = useState({ movies: false, genre: false });
   const [pageNumber, setPageNumber] = useState(1);
+  const [movies, setMovies] = useState([]);
   const [allGenres, setAllGenres] = useState([]);
   const [genresChecked, setGenresChecked] = useState([]);
 
   const addNewMovies = () => setPageNumber((pageNumber) => pageNumber + 1);
 
-  useEffect(() => {
+  const handleCheckboxToggle = (itemId) => {
+    if (genresChecked.find((item) => item === itemId) === undefined) {
+      setGenresChecked([...genresChecked, itemId]);
+    } else {
+      setGenresChecked(genresChecked.filter((item) => item !== itemId));
+    }
+
+    setPageNumber(1);
+  };
+
+  const fetchMovies = (url) => {
     setIsFetching(true);
+    setIsFetching({ ...isFetching, movies: true });
 
     axios
       .get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${
-          process.env.REACT_APP_API_KEY
-        }&language=en-US&sort_by=popularity.desc&page=${pageNumber}&with_genres=${genresChecked.join(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${url}&language=en-US&sort_by=popularity.desc&page=${pageNumber}&with_genres=${genresChecked.join(
           ","
         )}`
       )
@@ -33,32 +43,48 @@ function App() {
           setIsFetching(false);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        setIsError({ ...isError, movies: true });
+        console.log(error);
+      });
+  };
+
+  const fetchGenres = (url) => {
+    axios
+      .get(
+        `https://api.themoviedb.org/3/genre/movie/list?api_key=${url}&language=en-US`
+      )
+      .then((response) => {
+        setAllGenres(response.data.genres);
+      })
+      .catch((error) => {
+        setIsError({ ...isError, genre: true });
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchMovies(process.env.REACT_APP_API_KEY);
     // eslint-disable-next-line
   }, [pageNumber, genresChecked]);
 
   useEffect(() => {
-    axios
-      .get(
-        `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-      )
-      .then((response) => setAllGenres(response.data.genres))
-      .catch((error) => console.log(error));
+    fetchGenres(process.env.REACT_APP_API_KEY);
+    // eslint-disable-next-line
   }, []);
 
-  const handleToggle = (itemId) => {
-    if (genresChecked.find((item) => item === itemId) === undefined) {
-      setGenresChecked([...genresChecked, itemId]);
-    } else {
-      setGenresChecked(genresChecked.filter((item) => item !== itemId));
-    }
-
-    setPageNumber(1);
-  };
+  if (isError.movies || isError.genre) {
+    return (
+      <div>
+        <h1>There has been an error. Try refreshing the page.</h1>
+      </div>
+    );
+  }
 
   return (
     <>
       <Header />
+
       <section className="movies">
         <div className="container">
           <h1 className="movies__title">Popular movies</h1>
@@ -76,8 +102,9 @@ function App() {
                         type="checkbox"
                         name="genre"
                         id={id}
-                        onChange={() => handleToggle(id)}
+                        onChange={() => handleCheckboxToggle(id)}
                       />
+
                       <label
                         className={
                           genresChecked.includes(id)
@@ -114,6 +141,7 @@ function App() {
           </div>
         </div>
       </section>
+
       <Footer />
     </>
   );
