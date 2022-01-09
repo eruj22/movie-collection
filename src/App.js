@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import axios from "axios";
 import MovieCard from "./components/MovieCard";
+import MovieFilter from "./components/MovieFilter";
 
 function App() {
   const [isFetching, setIsFetching] = useState(false);
@@ -90,54 +91,27 @@ function App() {
           <h1 className="movies__title">Popular movies</h1>
 
           <div className="movies__flex">
-            <aside className="movies__filter">
-              <h2 className="movies__genreTitle">Filter movies by genre</h2>
+            <MovieFilter
+              allGenres={allGenres}
+              genresChecked={genresChecked}
+              handleCheckboxToggle={handleCheckboxToggle}
+            />
 
-              <div className="movies__genre">
-                {allGenres.map((item) => {
-                  const { id, name } = item;
-                  return (
-                    <div key={id}>
-                      <input
-                        type="checkbox"
-                        name="genre"
-                        id={id}
-                        onChange={() => handleCheckboxToggle(id)}
-                      />
-
-                      <label
-                        className={
-                          genresChecked.includes(id)
-                            ? "movies__label movies__label--active"
-                            : "movies__label"
-                        }
-                        htmlFor={id}
-                      >
-                        {name}
-                      </label>
-                    </div>
-                  );
-                })}
-              </div>
-            </aside>
-
-            <main className="movies__cards">
-              {isFetching ? (
+            {isFetching ? (
+              <main className="movies__cards">
                 <h1>Loading...</h1>
-              ) : (
-                movies.map((movie) => {
+              </main>
+            ) : (
+              <main className="movies__cards">
+                {movies.map((movie) => {
                   return <MovieCard key={movie.id} {...movie} />;
-                })
-              )}
+                })}
 
-              {isFetching ? (
-                ""
-              ) : (
                 <button className="movies__moreBtn" onClick={addNewMovies}>
                   load more
                 </button>
-              )}
-            </main>
+              </main>
+            )}
           </div>
         </div>
       </section>
