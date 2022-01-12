@@ -8,3 +8,15 @@
     color: $clr-white;
   }
 }
+
+@mixin buttonBlueFull {
+  padding: 7px 13px;
+  color: $clr-white;
+  background-color: $clr-dark-blue;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: $clr-blue;
+    color: $clr-white;
+  }
+}

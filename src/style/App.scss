@@ -23,11 +23,16 @@
     gap: 20px;
   }
 
+  &__empty {
+    width: 75%;
+  }
+
   &__moreBtn {
     @include buttonBlue;
     padding: 6px 12px;
     text-transform: uppercase;
     grid-column: span 5;
+    max-height: 40px;
   }
 }
 
@@ -59,6 +64,10 @@
     &__cards {
       width: 100%;
       grid-template-columns: repeat(4, 1fr);
+    }
+
+    &__empty {
+      width: 100%;
     }
 
     &__moreBtn {

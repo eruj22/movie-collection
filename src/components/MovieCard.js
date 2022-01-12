@@ -11,7 +11,11 @@ function MovieCard({
     <article className="card">
       <img
         className="card__image"
-        src={`https://image.tmdb.org/t/p/w185${poster_path}`}
+        src={
+          poster_path
+            ? `https://image.tmdb.org/t/p/w185${poster_path}`
+            : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
+        }
         alt={`poster of movie ${original_title}`}
       />
 

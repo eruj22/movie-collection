@@ -12,8 +12,13 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [allGenres, setAllGenres] = useState([]);
   const [genresChecked, setGenresChecked] = useState([]);
+  const [clickSearch, setClickSearch] = useState(false);
 
   const addNewMovies = () => setPageNumber((pageNumber) => pageNumber + 1);
+
+  const resetPageNumber = () => setPageNumber(1);
+
+  const toggleClickSearch = () => setClickSearch(!clickSearch);
 
   const handleCheckboxToggle = (itemId) => {
     if (genresChecked.find((item) => item === itemId) === undefined) {
@@ -21,13 +26,10 @@ function App() {
     } else {
       setGenresChecked(genresChecked.filter((item) => item !== itemId));
     }
-
-    setPageNumber(1);
   };
 
   const fetchMovies = (url) => {
     setIsFetching(true);
-    setIsFetching({ ...isFetching, movies: true });
 
     axios
       .get(
@@ -67,7 +69,7 @@ function App() {
   useEffect(() => {
     fetchMovies(process.env.REACT_APP_API_KEY);
     // eslint-disable-next-line
-  }, [pageNumber, genresChecked]);
+  }, [pageNumber, clickSearch]);
 
   useEffect(() => {
     fetchGenres(process.env.REACT_APP_API_KEY);
@@ -95,9 +97,13 @@ function App() {
               allGenres={allGenres}
               genresChecked={genresChecked}
               handleCheckboxToggle={handleCheckboxToggle}
+              toggleClickSearch={toggleClickSearch}
+              resetPageNumber={resetPageNumber}
             />
 
-            {isFetching ? (
+            {movies.length < 1 ? (
+              <h2 className="movies__empty">No movies found</h2>
+            ) : isFetching ? (
               <main className="movies__cards">
                 <h1>Loading...</h1>
               </main>

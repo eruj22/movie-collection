@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
-function MovieFilter({ allGenres, genresChecked, handleCheckboxToggle }) {
+function MovieFilter({
+  allGenres,
+  genresChecked,
+  handleCheckboxToggle,
+  toggleClickSearch,
+  resetPageNumber,
+}) {
+  const [isGenreClicked, setIsGenreClicked] = useState(false);
+
+  const filterIsClicked = () => setIsGenreClicked(true);
+
+  const filterIsSubmitted = () => {
+    setIsGenreClicked(false);
+    resetPageNumber();
+    window.scrollTo({ top: 0 });
+  };
+
   if (allGenres.length < 1) {
     return <h2>Explore all movies</h2>;
   }
@@ -18,7 +34,10 @@ function MovieFilter({ allGenres, genresChecked, handleCheckboxToggle }) {
                 type="checkbox"
                 name="genre"
                 id={id}
-                onChange={() => handleCheckboxToggle(id)}
+                onChange={() => {
+                  handleCheckboxToggle(id);
+                  filterIsClicked();
+                }}
               />
 
               <label
@@ -35,6 +54,17 @@ function MovieFilter({ allGenres, genresChecked, handleCheckboxToggle }) {
           );
         })}
       </div>
+
+      <button
+        className="filter__search"
+        onClick={() => {
+          toggleClickSearch();
+          filterIsSubmitted();
+        }}
+        disabled={!isGenreClicked}
+      >
+        Search
+      </button>
     </aside>
   );
 }
