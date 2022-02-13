@@ -1,12 +1,21 @@
 import React, { useState } from "react";
+import { ConfigureAllGenres } from "../utils/types";
 
-function MovieFilter({
+type ComponentMovieFilter = {
+  allGenres: ConfigureAllGenres[];
+  genresChecked: number[];
+  handleCheckboxToggle: (id: number) => void;
+  toggleClickSearch: () => void;
+  resetPageNumber: () => void;
+};
+
+const MovieFilter: React.FC<ComponentMovieFilter> = ({
   allGenres,
   genresChecked,
   handleCheckboxToggle,
   toggleClickSearch,
   resetPageNumber,
-}) {
+}) => {
   const [isGenreClicked, setIsGenreClicked] = useState(false);
 
   const filterIsClicked = () => setIsGenreClicked(true);
@@ -33,7 +42,7 @@ function MovieFilter({
               <input
                 type="checkbox"
                 name="genre"
-                id={id}
+                id={id.toString()}
                 onChange={() => {
                   handleCheckboxToggle(id);
                   filterIsClicked();
@@ -46,7 +55,7 @@ function MovieFilter({
                     ? "filter__label filter__label--active"
                     : "filter__label"
                 }
-                htmlFor={id}
+                htmlFor={id.toString()}
               >
                 {name}
               </label>
@@ -67,6 +76,6 @@ function MovieFilter({
       </button>
     </aside>
   );
-}
+};
 
 export default MovieFilter;

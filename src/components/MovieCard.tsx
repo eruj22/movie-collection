@@ -1,12 +1,19 @@
 import React from "react";
 import moment from "moment";
 
-function MovieCard({
+type SingleMovieCard = {
+  poster_path: string;
+  original_title: string;
+  release_date: string;
+  vote_average: number;
+};
+
+const MovieCard: React.FC<SingleMovieCard> = ({
   poster_path,
   original_title,
   release_date,
   vote_average,
-}) {
+}) => {
   return (
     <article className="card">
       <img
@@ -43,6 +50,6 @@ function MovieCard({
       </div>
     </article>
   );
-}
+};
 
 export default MovieCard;

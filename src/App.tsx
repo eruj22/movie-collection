@@ -4,15 +4,20 @@ import Footer from "./components/Footer";
 import axios from "axios";
 import MovieCard from "./components/MovieCard";
 import MovieFilter from "./components/MovieFilter";
+import { AppError, ConfigureAllGenres } from "./utils/types";
+import { FetchedMovies } from "./utils/interfaces";
 
 function App() {
-  const [isFetching, setIsFetching] = useState(false);
-  const [isError, setIsError] = useState({ movies: false, genre: false });
-  const [pageNumber, setPageNumber] = useState(1);
-  const [movies, setMovies] = useState([]);
-  const [allGenres, setAllGenres] = useState([]);
-  const [genresChecked, setGenresChecked] = useState([]);
-  const [clickSearch, setClickSearch] = useState(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [isError, setIsError] = useState<AppError>({
+    movies: false,
+    genre: false,
+  });
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [movies, setMovies] = useState<FetchedMovies[]>([]);
+  const [allGenres, setAllGenres] = useState<ConfigureAllGenres[]>([]);
+  const [genresChecked, setGenresChecked] = useState<number[]>([]);
+  const [clickSearch, setClickSearch] = useState<boolean>(false);
 
   const addNewMovies = () => setPageNumber((pageNumber) => pageNumber + 1);
 
@@ -20,7 +25,7 @@ function App() {
 
   const toggleClickSearch = () => setClickSearch(!clickSearch);
 
-  const handleCheckboxToggle = (itemId) => {
+  const handleCheckboxToggle = (itemId: number) => {
     if (genresChecked.find((item) => item === itemId) === undefined) {
       setGenresChecked([...genresChecked, itemId]);
     } else {
@@ -28,7 +33,7 @@ function App() {
     }
   };
 
-  const fetchMovies = (url) => {
+  const fetchMovies = (url: string | undefined) => {
     setIsFetching(true);
 
     axios
@@ -52,7 +57,7 @@ function App() {
       });
   };
 
-  const fetchGenres = (url) => {
+  const fetchGenres = (url: string | undefined) => {
     axios
       .get(
         `https://api.themoviedb.org/3/genre/movie/list?api_key=${url}&language=en-US`
